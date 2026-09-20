@@ -2,7 +2,6 @@
 layout: post
 title: "초보자를 위한 GitHub Pages 사용 가이드"
 date: 2026-09-20 09:00:00 +0900
-categories: [github-pages, jekyll]
 tags: [markdown, github]
 ---
 
@@ -67,7 +66,6 @@ GitHub Pages는 보통 `index.html`, `index.md`, `README.md` 중 하나를 사�
 layout: post
 title: "나의 첫 번째 글"
 date: 2026-09-20 09:00:00 +0900
-categories: [blog]
 tags: [기록]
 ---
 
@@ -113,7 +111,7 @@ tags: [기록]
 https://dongju-han.github.io/2026/09/20/first-post.html
 ```
 
-기본 URL은 파일 이름의 날짜와 slug를 이용하지만, 사이트의 `permalink` 설정이나 글의 `permalink` 값에 따라 달라질 수 있다. 주소를 직접 정하고 싶을 때만 다음 항목을 front matter에 추가한다.
+기본 URL은 파일 이름의 날짜와 slug를 이용하지만, `categories` 값이 있으면 카테고리 경로가 앞에 붙을 수 있고 사이트나 글의 `permalink` 설정에 따라서도 달라질 수 있다. 주소를 직접 정하고 싶을 때만 다음 항목을 front matter에 추가한다.
 
 ```yaml
 permalink: /posts/first-post/
