@@ -383,13 +383,65 @@ GitHub Pages와 저장소는 공개 인터넷에 노출될 수 있으므로 API 
 
 로컬에서 사이트 모양을 미리 보고 싶을 때 Jekyll을 설치할 수 있지만, 첫 글을 쓰는 데 필수는 아니다. 나중에 로컬 미리보기를 설정할 때는 GitHub Pages와 같은 의존성을 사용해야 온라인 결과와 로컬 결과의 차이를 줄일 수 있다.
 
-## 12. 게시 전 최종 점검표
+## 12. 로컬 실시간 미리보기
+
+지금까지 설명한 방식은 파일을 수정하고 commit·push한 뒤 GitHub Pages가 빌드할 때까지 기다리는 공개 배포 흐름이다. 글을 쓰는 동안 매번 push하지 않고 바로 확인하려면 내 컴퓨터에서 Jekyll 서버를 실행하고 `http://localhost:4000`을 열면 된다.
+
+로컬 미리보기는 공개 사이트를 바꾸지 않는다. 파일을 저장하면 로컬 서버가 사이트를 다시 만들고 브라우저를 새로고침할 뿐이며, 다른 사람에게 공개하려면 최종적으로 기존처럼 commit과 push를 해야 한다.
+
+### 준비할 것
+
+로컬 Jekyll 미리보기에는 Ruby, RubyGems, Bundler가 필요하다. GitHub Pages와 최대한 비슷한 환경을 만들기 위해 이 레포에서는 Jekyll 자체보다 `github-pages` gem을 Bundler로 설치하는 방식을 사용한다.
+
+현재 레포에는 아직 `Gemfile`이 없으므로, 레포 루트에 `Gemfile`이라는 파일을 새로 만들고 다음 내용을 넣는다.
+
+```ruby
+source "https://rubygems.org"
+
+gem "github-pages", group: :jekyll_plugins
+```
+
+`Gemfile`은 어떤 Ruby 패키지를 사용할지 적는 파일이다. 이 파일을 만들었다고 해서 글이 공개되는 것은 아니며, 로컬 도구의 의존성만 정하는 설정이다.
+
+### 설치하고 서버 실행하기
+
+레포 폴더에서 PowerShell을 열고 다음 순서로 실행한다.
+
+```powershell
+bundle install
+bundle exec jekyll serve --livereload
+```
+
+터미널에 서버 주소가 표시되면 브라우저에서 [http://localhost:4000](http://localhost:4000)을 연다. `--livereload`를 붙이면 Jekyll이 파일 변경을 감지한 뒤 페이지를 다시 만들고 브라우저도 자동으로 새로고침한다([Jekyll 공식 Quickstart](https://jekyllrb.com/docs/)).
+
+서버를 실행한 터미널은 계속 켜 둔 채 `_posts`의 글이나 `index.md`, `_config.yml`을 수정하고 저장한다. 자동 갱신이 되지 않으면 먼저 Jekyll이 변경을 감지했는지 터미널을 확인하고 브라우저를 수동으로 새로고침한다.
+
+로컬 서버를 끄려면 실행 중인 터미널에서 `Ctrl+C`를 누른다. Jekyll이 만든 `_site` 폴더는 생성 결과물이므로 보통 저장소에 커밋하지 않는다.
+
+### 현재 레포에서 경로가 어긋날 때
+
+`_config.yml`에 `baseurl`이 설정되어 있으면 로컬 주소에 저장소 하위 경로가 붙어 링크와 이미지가 어긋날 수 있다. 이 사용자 사이트처럼 `baseurl`이 없는 구성에서는 기본 명령을 사용하고, 하위 경로 때문에 문제가 생길 때만 `bundle exec jekyll serve --livereload --baseurl=""`로 시험한다.
+
+### 자주 만나는 로컬 오류
+
+| 증상 | 확인하거나 실행할 것 |
+| --- | --- |
+| `ruby` 또는 `bundle` 명령을 찾을 수 없음 | Ruby와 Bundler를 설치한 뒤 새 터미널을 연다. |
+| `Gemfile`을 찾을 수 없음 | 명령을 레포 루트에서 실행하고 `Gemfile` 파일이 있는지 확인한다. |
+| Ruby 3 이상에서 `webrick` 오류가 발생함 | `bundle add webrick`을 실행한 뒤 서버를 다시 시작한다. |
+| 4000번 포트가 이미 사용 중임 | `bundle exec jekyll serve --livereload --port 4001`처럼 다른 포트를 사용한다. |
+| 로컬과 공개 사이트 모양이 다름 | `github-pages` gem을 업데이트하고 테마·플러그인 버전을 확인한다. |
+
+GitHub 공식 문서도 Bundler로 의존성을 관리하고 `bundle exec jekyll serve`로 로컬 사이트를 실행하는 방식을 안내한다([GitHub Pages 로컬 테스트 문서](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/testing-your-github-pages-site-locally-with-jekyll)).
+
+## 13. 게시 전 최종 점검표
 
 - [ ] 파일이 `_posts/YYYY-MM-DD-slug.md` 형식이고 `_posts` 바로 아래에 있다.
 - [ ] front matter가 파일 첫 줄의 `---`부터 시작하고 YAML 문법이 올바르다.
 - [ ] 파일명 날짜와 `date`가 현재 또는 과거이며 시간대가 의도와 맞다.
 - [ ] 본문에 필요한 경우 `# 글 제목`을 직접 적었다.
 - [ ] 이미지 파일과 Markdown 경로의 대소문자가 일치한다.
+- [ ] 로컬 미리보기에서 저장 후 제목, 날짜, 본문, 이미지가 의도대로 보인다.
 - [ ] Liquid 예시를 설명하는 문서는 raw 태그로 보호했고 실제 실행 파일에는 raw 태그가 없다.
 - [ ] `git status`로 변경 파일을 확인했고 staged diff에 민감정보가 없다.
 - [ ] Settings → Pages에서 실제 배포 원본과 브랜치를 확인했다.
