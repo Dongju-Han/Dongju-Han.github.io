@@ -2,8 +2,10 @@
 layout: post
 title: "초보자를 위한 GitHub Pages 사용 가이드"
 date: 2026-09-20 09:00:00 +0900
-tags: [markdown, github]
+tags: [markdown, github, ai-generated]
 ---
+
+> 이 글은 AI가 작성함.
 
 GitHub Pages 공식 문서를 처음 보면 Jekyll, Markdown, front matter, publishing source 같은 단어가 한꺼번에 나와서 무엇부터 해야 할지 막막하다.
 
