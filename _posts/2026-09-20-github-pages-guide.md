@@ -7,7 +7,7 @@ tags: [markdown, github]
 
 GitHub Pages 공식 문서를 처음 보면 Jekyll, Markdown, front matter, publishing source 같은 단어가 한꺼번에 나와서 무엇부터 해야 할지 막막하다.
 
-이 글은 이 레포에서 바로 첫 글을 쓰고 공개하는 것을 목표로 한다. 복잡한 테마 제작이나 로컬 Jekyll 설치는 뒤로 미루고, 글 파일 하나를 만들고 배포가 성공했는지 확인하는 순서부터 익힌다.
+이 글은 이 레포에서 바로 첫 글을 쓰고 공개하는 것을 목표로 한다. 복잡한 테마 제작이나 로컬 Jekyll 설치는 뒤로 미루고, 글 파일 하나를 만들고 홈에 링크가 생겼는지와 글 페이지에서 제목·본문이 보이는지 확인하는 순서부터 익힌다.
 
 > 이 글의 기준 레포는 `Dongju-Han/Dongju-Han.github.io`이고 사이트 주소는 [https://dongju-han.github.io/](https://dongju-han.github.io/)다.
 
@@ -26,7 +26,7 @@ GitHub Pages 공식 문서를 처음 보면 Jekyll, Markdown, front matter, publ
 
 ## 1. 이 레포에서 파일이 하는 일
 
-현재 레포의 핵심 파일은 다음과 같다.
+현재 레포에 실제로 있는 핵심 파일은 다음과 같다.
 
 ```text
 .
@@ -34,9 +34,7 @@ GitHub Pages 공식 문서를 처음 보면 Jekyll, Markdown, front matter, publ
 ├── index.md
 ├── _config.yml
 ├── _posts/
-│   └── YYYY-MM-DD-post-slug.md
-└── assets/
-    └── images/
+    └── YYYY-MM-DD-post-slug.md
 ```
 
 각 항목의 역할은 다음과 같다.
@@ -45,11 +43,13 @@ GitHub Pages 공식 문서를 처음 보면 Jekyll, Markdown, front matter, publ
 - `index.md`: 사이트 홈 화면과 최근 글 목록을 담당한다.
 - `_config.yml`: 사이트 제목과 설명처럼 사이트 전체에 적용되는 설정이다.
 - `_posts/`: 날짜가 붙은 블로그 글을 넣는 특별한 폴더다.
-- `assets/images/`: 글에 넣을 이미지와 같은 정적 파일을 보관할 폴더다.
+- `assets/images/`: 이미지를 사용할 때 직접 만들 선택 폴더다.
 
-`_posts`와 `assets`는 지금 없더라도 직접 만들 수 있다. 처음부터 `_layouts`, `Gemfile`, 복잡한 GitHub Actions 파일까지 만들 필요는 없다.
+`_posts`와 `assets/images`는 필요할 때 직접 만들 수 있다. 처음부터 `_layouts`, `Gemfile`, 복잡한 GitHub Actions 파일까지 만들 필요는 없다.
 
-GitHub Pages는 보통 `index.html`, `index.md`, `README.md` 중 하나를 사이트의 첫 파일로 사용한다. 이 레포는 `index.md`를 사용해 홈 화면에 최근 글 목록을 보여 준다.
+GitHub Pages는 보통 `index.html`, `index.md`, `README.md` 중 하나를 사이트의 첫 파일 후보로 사용한다. 이 레포에서는 루트의 `index.md`가 홈을 담당하고 `README.md`는 레포 설명 문서로 남아 있다.
+
+날짜가 있는 블로그 글은 `_posts`에 넣고, 소개나 연락처처럼 날짜와 무관한 고정 페이지는 루트에 `about.md`처럼 만들면 된다. 포스트는 파일명 날짜와 `site.posts` 목록에 참여하지만, 고정 페이지는 필요할 때 직접 링크하거나 홈에서 직접 연결한다.
 
 ## 2. 첫 글을 만드는 가장 짧은 방법
 
@@ -69,6 +69,8 @@ date: 2026-09-20 09:00:00 +0900
 tags: [기록]
 ---
 
+# 나의 첫 번째 글
+
 오늘부터 GitHub Pages에 글을 쓰기 시작한다.
 
 ## 오늘 기록한 것
@@ -76,7 +78,7 @@ tags: [기록]
 첫 글의 본문을 여기에 작성한다.
 ```
 
-가장 중요한 규칙은 `---`로 둘러싸인 부분이 파일의 첫 줄부터 시작해야 한다는 것이다. 그 아래 한 줄을 비우고 본문을 쓰면 된다.
+예시의 날짜는 설명용이므로 실제로 작성하는 날의 날짜와 시간으로 바꿔야 한다. 가장 중요한 규칙은 `---`로 둘러싸인 부분이 파일의 첫 줄부터 시작해야 한다는 것이며, 그 아래 한 줄을 비우고 본문 제목과 내용을 쓰면 된다.
 
 ## 3. 제목, 날짜, URL은 어디에서 정하는가
 
@@ -90,18 +92,21 @@ tags: [기록]
 | `categories` | 글을 묶을 분류 | 선택 사항이다 |
 | `tags` | 글을 찾기 위한 태그 | 선택 사항이다 |
 | `permalink` | 글의 고정 주소를 직접 정하는 설정 | 선택 사항이다 |
+| `published` | 글을 공개할지 여부 | 선택 사항이며 기본값은 공개다 |
 
 ### 제목
 
 `title: "나의 첫 번째 글"`이 글 제목이다. `_config.yml`에 있는 `title`은 사이트 전체 제목이고, 포스트 파일의 `title`은 개별 글 제목이다.
 
-`layout: post`를 사용하면 테마가 front matter의 제목을 화면에 출력하는 경우가 많으므로, 본문에 같은 제목을 다시 `# 나의 첫 번째 글`로 적지 않는 편이 깔끔하다. 본문 안에서 새로운 단락을 시작할 때는 `##`부터 사용하면 된다.
+`title`은 브라우저 제목, SEO 정보, 홈 목록에는 사용되지만 현재 이 레포의 실제 `layout: post` 화면은 본문 제목을 자동으로 보여 주지 않는다. 따라서 이 레포에서 화면에 큰 제목을 보이게 하려면 본문 첫 줄에 `# 나의 첫 번째 글`을 직접 적어야 하며, 다른 테마나 레이아웃을 사용하면 제목이 중복될 수 있으므로 배포된 페이지를 확인해야 한다.
 
 ### 날짜
 
 날짜는 커밋한 시간이 자동으로 들어가는 값이 아니다. 파일 이름의 날짜가 기본 날짜로 사용되고, front matter에 `date`를 적으면 그 값이 우선한다.
 
 한국에서 작성한 글은 `2026-09-20 09:00:00 +0900`처럼 시간대까지 적으면 날짜가 다른 날로 바뀌는 문제를 줄일 수 있다. 나중에 글을 수정해도 원래 게시 날짜를 유지하고 싶다면 `date` 값을 바꾸지 않으면 된다.
+
+Jekyll은 기본적으로 미래 날짜의 글을 공개 목록과 생성 결과에서 제외할 수 있다. 빌드는 성공했는데 글이 보이지 않는다면 파일명 날짜와 `date`가 현재 한국 시간보다 미래인지 먼저 확인하고, 테스트 글은 현재 또는 과거 날짜로 설정한다.
 
 ### URL
 
@@ -111,7 +116,7 @@ tags: [기록]
 https://dongju-han.github.io/2026/09/20/first-post.html
 ```
 
-기본 URL은 파일 이름의 날짜와 slug를 이용하지만, `categories` 값이 있으면 카테고리 경로가 앞에 붙을 수 있고 사이트나 글의 `permalink` 설정에 따라서도 달라질 수 있다. 주소를 직접 정하고 싶을 때만 다음 항목을 front matter에 추가한다.
+기본 URL은 파일 이름의 날짜와 slug를 이용하지만, 기본 permalink 설정에 `:categories`가 포함되어 있으면 `categories` 값이 경로 앞에 붙을 수 있다. `tags`는 기본적으로 URL을 바꾸지 않으며, 사이트나 글의 `permalink` 설정에 따라서도 주소가 달라질 수 있다.
 
 ```yaml
 permalink: /posts/first-post/
@@ -142,9 +147,11 @@ GitHub Pages가 결과를 웹사이트로 공개
 
 ### 제목과 문단
 
-`#`의 개수로 제목의 단계가 정해진다. 포스트 제목은 front matter의 `title`이 담당하므로 본문에서는 보통 `##`부터 시작한다.
+`#`의 개수로 제목의 단계가 정해진다. 현재 이 레포의 글 레이아웃은 front matter의 `title`을 본문 제목으로 자동 출력하지 않으므로, 글 본문에 보이는 제목이 필요하면 `# 글 제목`을 직접 적고 그 아래 단락부터 `##`를 사용한다.
 
 ```markdown
+# 글 제목
+
 ## 큰 단락
 
 여기에 설명을 쓴다.
@@ -205,11 +212,13 @@ assets/images/first-post/screenshot.png
 
 그다음 글에서 다음처럼 사용한다.
 
+{% raw %}
 ```markdown
-![첫 글 화면 캡처](/assets/images/first-post/screenshot.png)
+![첫 글 화면 캡처]({{ '/assets/images/first-post/screenshot.png' | relative_url }})
 ```
+{% endraw %}
 
-대괄호 안의 문장은 이미지가 보이지 않을 때 대신 표시되는 설명이다. 파일 이름에 공백이나 한글을 넣어도 되지만, 처음에는 영문 소문자와 하이픈을 사용하는 편이 오류를 줄인다.
+대괄호 안의 문장은 이미지가 보이지 않을 때 대신 표시되는 설명이다. `relative_url`은 사이트가 루트 도메인이 아니라 `baseurl` 아래에 배포되는 경우에도 경로를 맞춰 주므로 범용 예시에 적합하다. 파일 이름에 공백이나 한글을 넣어도 되지만, 처음에는 영문 소문자와 하이픈을 사용하는 편이 오류를 줄인다.
 
 코드 블록은 다음처럼 언어를 함께 적는다.
 
@@ -219,7 +228,7 @@ print("hello")
 ```
 ````
 
-GitHub Pages는 코드 블록의 언어를 보고 색상을 입혀 준다. 언어 이름은 `python`, `javascript`, `powershell`, `bash`, `yaml`처럼 소문자로 적는다.
+Jekyll은 코드 블록을 구문 강조용 HTML로 만들고 실제 색상은 테마와 CSS가 결정한다. 언어 이름은 `python`, `javascript`, `powershell`, `bash`, `yaml`처럼 소문자로 적는다.
 
 ## 7. 저장하고 GitHub Pages에 공개하기
 
@@ -228,25 +237,28 @@ GitHub Pages는 코드 블록의 언어를 보고 색상을 입혀 준다. 언�
 1. 파일 경로가 `_posts/YYYY-MM-DD-slug.md` 형식인지 확인한다.
 2. front matter가 첫 줄의 `---`부터 시작하는지 확인한다.
 3. 본문 Markdown과 이미지 경로를 확인한다.
-4. 변경 내용을 커밋한다.
-5. `main` 브랜치에 push한다.
+4. `git status`로 변경 파일을 확인한다.
+5. 필요한 파일만 스테이징하고 staged diff를 확인한다.
+6. 커밋한 뒤 Pages가 사용하는 브랜치에 push한다.
 
 PowerShell에서 작업한다면 명령은 다음처럼 실행할 수 있다.
 
 ```powershell
-git add _posts/2026-09-20-github-pages-guide.md
-git commit -m "Add GitHub Pages guide"
+git status
+git add _posts/2026-09-20-first-post.md
+git diff --cached
+git commit -m "Add first post"
 git push origin main
 ```
 
-이미지까지 추가했다면 이미지 파일도 함께 추가해야 한다. 모든 변경을 한 번에 추가하려면 `git add .`를 사용할 수 있지만, 어떤 파일이 포함되는지 먼저 확인하는 습관을 들이는 것이 좋다.
+이미지까지 추가했다면 이미지 파일도 함께 스테이징해야 한다. 처음부터 `git add .`를 기본 명령으로 사용하면 설정 파일이나 비밀값까지 함께 추가할 수 있으므로, `git status`로 확인한 뒤 필요한 파일을 선택적으로 추가하는 편이 안전하다.
 
-GitHub 저장소에서 Settings → Pages → Build and deployment를 열면 배포 원본을 확인할 수 있다. 이 레포처럼 `main` 브랜치의 루트를 배포하도록 설정되어 있다면 `main`에 push한 변경이 사이트 빌드 대상이 된다.
+GitHub 저장소에서 Settings → Pages → Build and deployment를 열어 실제 배포 원본을 먼저 확인한다. `Deploy from a branch`가 선택되어 있으면 지정된 브랜치와 폴더에 push해야 하고, `GitHub Actions`가 선택되어 있으면 해당 workflow의 트리거 브랜치와 빌드·배포 단계가 실행되어야 한다.
 
 배포가 끝났는지는 다음 세 가지로 확인한다.
 
-1. 저장소의 Actions에서 Pages 빌드가 성공했는지 확인한다.
-2. 글의 예상 URL에 접속해 글이 열리는지 확인한다.
+1. 브랜치 배포라면 Pages 설정의 배포 상태를 확인하고, Actions 배포라면 해당 workflow가 성공했는지 확인한다.
+2. 홈의 글 목록 링크 또는 생성된 실제 URL에 접속해 글이 열리는지 확인한다.
 3. 제목, 날짜, 본문, 이미지가 의도한 대로 보이는지 확인한다.
 
 GitHub Pages는 push 직후 바로 보이지 않을 수 있다. 몇 분 기다린 뒤에도 문제가 있으면 Actions의 실패한 작업을 먼저 확인한다.
@@ -259,7 +271,8 @@ GitHub Pages는 push 직후 바로 보이지 않을 수 있다. 몇 분 기다�
 
 아주 단순한 글 목록은 다음처럼 만들 수 있다.
 
-```markdown
+{% raw %}
+```liquid
 ---
 layout: default
 title: Home
@@ -271,20 +284,60 @@ title: Home
 - [{{ post.title }}]({{ post.url | relative_url }}) — {{ post.date | date: "%Y-%m-%d" }}
 {% endfor %}
 ```
+{% endraw %}
+
+위 코드의 보호용 raw 태그는 이 가이드 안에서 Liquid 예시가 실행되지 않고 문자 그대로 보이게 하는 장치다. 실제 `index.md`에 복사할 때는 보호용 raw 태그를 넣지 않아야 한다.
+
+각 표현의 역할은 다음과 같다.
+
+| 표현 | 의미 |
+| --- | --- |
+| `{% raw %}{% for post in site.posts %}{% endraw %}` | 사이트의 포스트 모음을 하나씩 반복하기 시작한다. |
+| `site.posts` | `_posts`에서 만들어진 공개 포스트 모음이다. 미래 날짜나 `published: false`인 글은 기본적으로 빠질 수 있다. |
+| `post` | 반복 중인 현재 글을 가리키는 변수다. |
+| `{% raw %}{{ post.title }}{% endraw %}` | 현재 글의 front matter `title`을 출력한다. |
+| `{% raw %}{{ post.url | relative_url }}{% endraw %}` | 현재 글의 주소를 가져와 사이트의 `baseurl`을 고려한 링크로 만든다. |
+| `{% raw %}{{ post.date | date: "%Y-%m-%d" }}{% endraw %}` | 현재 글의 날짜를 지정한 형식으로 바꾼다. |
+| `{% raw %}{% endfor %}{% endraw %}` | 반복을 끝낸다. |
 
 이 코드는 `site.posts`에 들어 있는 글을 순서대로 돌면서 제목, 링크, 날짜를 출력한다. 글이 추가될 때마다 별도의 목록 수정 없이 홈 화면이 함께 갱신된다.
 
-## 9. 자주 생기는 문제
+## 9. `_config.yml`의 사이트 제목과 설명
+
+현재 `_config.yml`에는 다음 설정이 있다.
+
+```yaml
+title: dongju's page
+description: 개발 블로그
+```
+
+`title`은 사이트 전체 이름으로 테마, 브라우저 제목, SEO 정보에 사용될 수 있다. 포스트 front matter의 `title`은 개별 글 제목이므로 둘은 서로 다른 값이다.
+
+`description`은 화면 본문에 자동으로 찍히는 소개문이 아니다. 현재 사이트에서는 HTML의 `<head>` 안에 `meta description`, 공유 미리보기용 `og:description`, 구조화된 데이터의 `description`으로 들어가며, 검색엔진이나 SNS가 페이지를 요약할 때 참고한다.
+
+포스트 페이지는 front matter의 별도 설명이 없으면 본문 첫 문단을 페이지 설명으로 사용할 수 있으므로, `_config.yml`의 `description`이 모든 글의 화면에 그대로 보인다고 생각하면 안 된다.
+
+홈 본문에 `개발 블로그`를 직접 보이게 하려면 `index.md`에서 사이트 전역 변수인 `site.description`을 출력해야 한다.
+
+{% raw %}
+```liquid
+> {{ site.description }}
+```
+{% endraw %}
+
+이 코드를 `index.md`에 넣으면 홈 화면에 인용문 형태로 설명이 표시된다. 가이드 안에서만 Liquid 예시가 실행되지 않게 raw 태그로 감쌌고, 실제 홈 파일에 복사할 때는 raw 태그를 제외한다.
+
+## 10. 자주 생기는 문제
 
 ### 글이 사이트에 나타나지 않는다
 
 먼저 파일이 `_posts` 바로 아래에 있는지 확인한다. `_post`, `posts`, `drafts`처럼 이름이 다르면 일반 폴더로 취급될 수 있다.
 
-파일 이름에 날짜가 빠졌거나 날짜 형식이 `2026-9-2`처럼 한 자리라면 Jekyll 포스트로 인식되지 않을 수 있다. `2026-09-02-title.md`처럼 월과 일을 두 자리로 적는다.
+파일 이름에 날짜가 빠졌거나 날짜 형식이 `2026-9-2`처럼 한 자리라면 Jekyll 포스트로 인식되지 않을 수 있다. `2026-09-02-title.md`처럼 월과 일을 두 자리로 적고, 파일명과 front matter의 날짜가 미래인지도 확인한다.
 
 ### 제목이 두 번 나온다
 
-front matter의 `title`과 본문의 `# 제목`이 모두 출력되고 있을 가능성이 있다. 본문의 첫 번째 제목을 지우거나 `##` 단계로 낮춘다.
+현재 이 레포에서는 front matter의 `title`이 본문 제목으로 자동 출력되지 않으므로, front matter만 적고 본문에 H1을 쓰지 않으면 글 화면에 제목이 없을 수 있다. 반대로 제목을 자동 출력하는 테마나 레이아웃으로 바꾼 뒤 H1을 직접 남겨 두면 제목이 두 번 나올 수 있으므로 실제 글 화면에서 확인한다.
 
 ### 날짜가 생각과 다르다
 
@@ -292,34 +345,66 @@ front matter의 `title`과 본문의 `# 제목`이 모두 출력되고 있을 �
 
 ### 이미지가 깨진다
 
-이미지 파일이 실제로 커밋되었는지 확인하고, Markdown 경로의 대소문자와 확장자가 실제 파일 이름과 같은지 확인한다. 이 사이트는 루트 주소에서 서비스되므로 `/assets/images/...`처럼 작성할 수 있다.
+이미지 파일이 실제로 커밋되었는지 확인하고, Markdown 경로의 대소문자와 확장자가 실제 파일 이름과 같은지 확인한다. 현재 사용자 사이트에서는 `/assets/images/...`도 작동하지만, 프로젝트 사이트까지 고려하면 `relative_url`을 사용하는 방식이 안전하다.
 
 ### push했는데 새 글이 안 보인다
 
-Actions에서 빌드가 실패했는지 먼저 확인한다. 빌드가 성공했는데도 이전 화면이 보이면 몇 분 기다린 뒤 새로고침하고, 주소가 맞는지도 확인한다.
+먼저 Settings → Pages에서 배포 원본과 브랜치를 확인하고, Actions 방식이면 해당 workflow가 실패했는지 확인한다. 빌드가 성공했는데도 이전 화면이 보이면 몇 분 기다린 뒤 새로고침하고, 홈 목록 링크가 가리키는 실제 주소인지도 확인한다.
 
 ### `README.md`를 고쳤는데 글 목록이 생기지 않는다
 
-`README.md`는 레포 설명 문서일 뿐이고, `_posts`의 글들을 자동으로 나열하는 코드를 포함하고 있지 않다. 홈의 글 목록은 `index.md`와 `site.posts` 반복문이 담당한다.
+현재 이 레포에서는 `index.md`가 `README.md`보다 우선하는 홈 진입 파일이고, 홈의 글 목록은 `index.md`와 `site.posts` 반복문이 담당한다. 다른 레포에서 `index.md`가 없으면 `README.md`가 Pages 진입 파일 후보가 될 수 있으므로, 파일 구조를 먼저 확인해야 한다.
 
-## 10. 앞으로의 추천 순서
+### YAML이나 front matter 오류가 난다
+
+front matter는 파일 첫 줄의 `---`로 시작해야 하며 그 안의 내용은 유효한 YAML이어야 한다. 콜론 뒤 값에 특수문자가 있으면 따옴표를 사용하고, 들여쓰기를 임의로 섞지 않으며, Windows 편집기에서 UTF-8 BOM이 붙지 않았는지도 확인한다.
+
+### 가이드의 Liquid 예시가 실제 글 목록으로 실행된다
+
+Jekyll은 포스트 안의 Liquid도 처리하므로, 문서에서 Liquid 문법을 보여 줄 때는 예시 앞뒤를 raw 태그로 감싸야 한다. 실제 `index.md`에서 실행할 코드는 raw 태그 없이 작성한다.
+
+### 공개하면 안 되는 정보가 들어갔다
+
+GitHub Pages와 저장소는 공개 인터넷에 노출될 수 있으므로 API 키, 비밀번호, 개인정보, 내부 문서를 커밋하지 않는다. push 전에 `git status`와 `git diff --cached`로 스테이징된 파일과 내용을 확인한다.
+
+## 11. 앞으로의 추천 순서
 
 처음에는 아래 순서만 반복하면 된다.
 
 1. `_posts` 안에 날짜가 붙은 Markdown 파일을 만든다.
 2. front matter에 제목과 날짜를 적는다.
 3. 본문을 Markdown으로 쓴다.
-4. 커밋하고 `main`에 push한다.
-5. Actions 성공과 글 URL을 확인한다.
+4. Pages 설정에서 확인한 배포 브랜치에 push한다.
+5. 브랜치 배포 상태 또는 Actions 성공과 글 URL을 확인한다.
 
-이제 글을 몇 개 더 쓴 다음에 테마와 CSS를 손보는 것이 좋다. 글쓰기와 디자인을 동시에 시작하면 어디에서 문제가 생겼는지 찾기 어려우므로, 먼저 글을 꾸준히 공개하는 흐름을 만드는 것이 우선이다.
+글이 몇 개 쌓인 다음에는 `about.md` 같은 고정 페이지, `_drafts`와 `published: false`를 이용한 초안, 태그·카테고리 목록, 테마와 CSS를 차례로 추가하는 것이 좋다. `tags`나 `categories`를 front matter에 적는 것만으로 목록 페이지가 자동으로 생기는 것은 아니므로 별도의 Liquid 템플릿이나 테마 지원이 필요하다.
 
-로컬에서 사이트 모양을 미리 보고 싶을 때 Jekyll을 설치할 수 있지만, 첫 글을 쓰는 데 필수는 아니다. 지금은 GitHub에서 빌드가 성공하는지 확인하는 것만으로 충분하다.
+`_drafts` 안의 글은 보통 날짜 없는 파일로 만들고 일반 배포에서 제외하며, 특정 포스트 front matter에 `published: false`를 적어도 공개 목록에서 숨길 수 있다. 초안을 로컬에서 보려면 Jekyll의 drafts 또는 unpublished 옵션이 필요하므로 첫 게시 흐름과 섞지 않는 편이 쉽다.
+
+로컬에서 사이트 모양을 미리 보고 싶을 때 Jekyll을 설치할 수 있지만, 첫 글을 쓰는 데 필수는 아니다. 나중에 로컬 미리보기를 설정할 때는 GitHub Pages와 같은 의존성을 사용해야 온라인 결과와 로컬 결과의 차이를 줄일 수 있다.
+
+## 12. 게시 전 최종 점검표
+
+- [ ] 파일이 `_posts/YYYY-MM-DD-slug.md` 형식이고 `_posts` 바로 아래에 있다.
+- [ ] front matter가 파일 첫 줄의 `---`부터 시작하고 YAML 문법이 올바르다.
+- [ ] 파일명 날짜와 `date`가 현재 또는 과거이며 시간대가 의도와 맞다.
+- [ ] 본문에 필요한 경우 `# 글 제목`을 직접 적었다.
+- [ ] 이미지 파일과 Markdown 경로의 대소문자가 일치한다.
+- [ ] Liquid 예시를 설명하는 문서는 raw 태그로 보호했고 실제 실행 파일에는 raw 태그가 없다.
+- [ ] `git status`로 변경 파일을 확인했고 staged diff에 민감정보가 없다.
+- [ ] Settings → Pages에서 실제 배포 원본과 브랜치를 확인했다.
+- [ ] push 뒤 Actions 또는 Pages 배포가 성공했다.
+- [ ] 홈 목록 링크와 글의 실제 URL을 직접 열어 제목, 날짜, 본문을 확인했다.
 
 ## 참고 문서
 
 - [GitHub Pages 공식 문서](https://docs.github.com/en/pages)
 - [GitHub Pages에서 Jekyll로 콘텐츠 추가하기](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/adding-content-to-your-github-pages-site-using-jekyll)
 - [GitHub Pages 배포 원본 설정하기](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
+- [GitHub Pages 사이트 생성하기](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site)
+- [GitHub Pages와 Jekyll](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll)
 - [Jekyll Posts](https://jekyllrb.com/docs/posts/)
 - [Jekyll Front Matter](https://jekyllrb.com/docs/front-matter/)
+- [Jekyll Liquid 필터](https://jekyllrb.com/docs/liquid/filters/)
+- [Jekyll Permalinks](https://jekyllrb.com/docs/permalinks/)
+- [Jekyll 빌드 오류 해결](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/troubleshooting-jekyll-build-errors-for-github-pages-sites)
